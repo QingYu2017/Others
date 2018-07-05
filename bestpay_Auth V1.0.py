@@ -19,3 +19,7 @@ response=r.post(url,data=json.dumps(payload),headers=headers)
 s=json.loads(response.content)
 print(s) 
 
+#调试返回json
+#{'errorCode': None, 'errorMsg': None, 'result': {'isAgreement': True, 'isAgreementReason': '恭喜您通过认证'}, 'success': True}
+#{'errorCode': None, 'errorMsg': None, 'result': {'isAgreement': False, 'isAgreementReason': '您的证件号未通过验证'}, 'success': True}
+#{'errorCode': 'API100001', 'errorMsg': '签名认证失败', 'result': None, 'success': False}
