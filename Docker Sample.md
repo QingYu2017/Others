@@ -31,7 +31,8 @@ Widows中导入KMS镜像并映射端口，供本机激活
 ![示例](https://github.com/QingYu2017/pic/blob/master/2019041501.png)
 
 ### 代码参考
-```python
+dockerfile
+```dockerfile
 # 基础镜像
 FROM centos
 # 作者
