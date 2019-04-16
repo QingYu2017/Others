@@ -11,9 +11,9 @@ Date:2019-04-15
 
 ### 需求背景
 - 使用爬虫从互联网获取信息时，部分网站可能会使用简单的网络管理手段，对频繁发起网络请求的地址进行拦截，如果使用zbx从同一页面直接抓取数据，当目标
-数据键值比较多的时候，需要多次发起访问请求，触发拦截机制。与此相似的是oracle的监控管理，如zbx直接访问oracle采集监控数据，大量性能查询会影响
+数据键值比较多的时候，需要多次发起访问请求，触发拦截机制。与此相似的是oracle的监控管理，如zbx直接访问oracle采集监控数据，频繁的管理信息查询会影响
 oracle本身性能，干扰正常业务。
-- 在使用微信企业号时，token的有效时间为3600s，如果将应用委托给外包公司管理时，将token以订阅方式提供给对方，比直接提供secretKey更为安全。
+- 在使用微信企业号时，token的有效时间为3600s，每次发起访问请求都刷新token会出现请求token失败的情况，同时，如果将应用委托给外包公司管理时，将token以订阅方式提供给对方，比直接提供secretKey更为安全。
 - 在桌面管理中，部分企业即便购买了正版的lic，仍然会遇到繁琐的Windows和Office激活问题，而部署kms服务器，本身也将占用windows的lic并需要进行日常管理。
 
 ### 方案设计
@@ -38,15 +38,16 @@ FROM centos
 MAINTAINER Qing.Yu 1753330141@qq.com
 
 # 配置脚本
-
+#修改时区
+RUN \cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 #创建服务目录
 RUN mkdir /root/kms_app
 #拷贝文件
-ADD kms_app /root/vlmkms_appcsdmulti/
+ADD kms_app /root/kms_app/
 #修改文件属性
 RUN chmod a+x /root/kms_app/kms_app
 #添加自动运行
-RUN sed -i '$a\/root/kms_app/kms_app win' /etc/rc.d/rc.local
+RUN sed -i '$a\/root/kms_app/kms_app start_service' /etc/rc.d/rc.local
 #修改文件属性
 RUN chmod +x /etc/rc.d/rc.local
 # 发布端口
