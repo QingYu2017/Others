@@ -23,7 +23,8 @@ Date:2019-08-29
 - Tushar S . LINUX SHELL脚本攻略(第2版)(图灵程序设计丛书)[M]. 人民邮电出版社, 2014.
 - 余洪春. 构建高可用Linux服务器[M]. 机械工业出版社, 2012.
 
-### Dokerfile
+### 编写Dokerfile
+文件名och_mariadb.dockerfile
 ```dockerfile
 #配置mariadb
 # 基础镜像
@@ -45,9 +46,15 @@ EXPOSE 3306
 CMD ["/usr/sbin/init"]
 ```
 
+### 创建镜像
+创建镜像，当前目录下och开头的.dockerfile文件，镜像名为.dockerfile文件名
+```shell
+ls och*.dockerfile|awk '{print $1}'|sed -e 's/\.dockerfile//g'|xargs -I {} docker build -t {} -f {}.dockerfile .
+```
+### 创建容器
 创建测试容器并配置主从复制
 ```shell
-#清空容器（非prod标识）
+#停止并删除所有测试容器（不含生产容器prod标识）
 docker ps -a|grep -v "\\(prod\\)"|awk '{print $1}'|xargs -I {} docker stop {};docker ps -a|grep -v "\\(prod\\)"|awk '{print $1}'|xargs -I {} docker rm {}
 #删除测试本地持久化卷
 rm -rf /root/Docker_MySQL/test_och_mariadb01
@@ -69,7 +76,7 @@ docker exec -it test_och_mariadb02 /bin/bash -c 'chown -R mysql:mysql /var/lib/m
 docker exec -it test_och_mariadb02 bash
 
 #主服务器变更设置
-sed '1 aserver_id=8001\nalog-bin=master8001' -i /etc/my.cnf
+sed '1 aserver_id=8001\nlog-bin=master8001' -i /etc/my.cnf
 systemctl restart mariadb
 echo 'grant replication slave on *.* to repluser@"%" identified by "123456";flush privileges;'|mysql -uroot
 
