@@ -15,14 +15,6 @@ Date:2019-09-27
 1. 宿主机（Linux、MacOS或Windows）上根据用户分配容器，并配置独立的用户数据空间、访问密码、访问地址（端口），用户相互独立；
 ![示例](https://github.com/QingYu2017/pic/blob/master/20190927144045.png)
 
-### 参考资料
-- 龚正. Kubernets权威指南[M]. 电子工业出版社, 2018. 
-- 杨保华, 戴王剑, 曹亚仑. Docker技术入门与实战[M]. 机械工业出版社, 2015.
-- Tushar S . LINUX SHELL脚本攻略(第2版)(图灵程序设计丛书)[M]. 人民邮电出版社, 2014.
-- 余洪春. 构建高可用Linux服务器[M]. 机械工业出版社, 2012.
-- Lindblad T , Kinser J M . NumPy, SciPy and Python Image Library[M]// Image Processing using Pulse-Coupled Neural Networks. Springer Berlin Heidelberg, 2013.
-- Pajankar A . Matplotlib[M]// Raspberry Pi Supercomputing and Scientific Programming. Apress, 2017.
-
 ### 编写Dokerfile
 文件名och_jupyter.dockerfile
 ```dockerfile
@@ -95,5 +87,13 @@ sh-4.2# source ~/.bash_profile
 ![示例](https://github.com/QingYu2017/pic/blob/master/20190927144249.png)
 
 ### 问题总结
-- 推荐使用的环境是Linux和MacOS，Windows平台的Docke Desktop尚不完善。在Windows中启动容器后，由于没有加载systemd启动Jupyterlab服务，需要手工启动Jupyterlab，同时Windows的Docker需要4G以上的内存。
+- 推荐使用的环境是Linux和MacOS，Windows平台的Docker Desktop尚不完善。在Windows中启动容器后，由于没有加载systemd启动Jupyterlab服务，需要手工启动Jupyterlab，同时Windows运行Docker Desktop需要4G以上的内存。
 - JupyterNotebook( http://localhost:8888/tree )可以使用cufflinks库直接生成可视化图表，Jupyterlab（ http://localhost:8888/lab ）扩展编译异常，可视化渲染暂时使用matplotlib库。
+
+### 参考资料
+- 龚正. Kubernets权威指南[M]. 电子工业出版社, 2018. 
+- 杨保华, 戴王剑, 曹亚仑. Docker技术入门与实战[M]. 机械工业出版社, 2015.
+- Tushar S . LINUX SHELL脚本攻略(第2版)(图灵程序设计丛书)[M]. 人民邮电出版社, 2014.
+- 余洪春. 构建高可用Linux服务器[M]. 机械工业出版社, 2012.
+- Lindblad T , Kinser J M . NumPy, SciPy and Python Image Library[M]// Image Processing using Pulse-Coupled Neural Networks. Springer Berlin Heidelberg, 2013.
+- Pajankar A . Matplotlib[M]// Raspberry Pi Supercomputing and Scientific Programming. Apress, 2017.
