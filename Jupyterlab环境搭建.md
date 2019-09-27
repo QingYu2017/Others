@@ -96,7 +96,4 @@ sh-4.2# source ~/.bash_profile
 
 ### 问题总结
 - 推荐使用的环境是Linux和MacOS，Windows平台的Docke Desktop尚不完善。在Windows中启动容器后，由于没有加载systemd启动Jupyterlab服务，需要手工启动Jupyterlab，同时Windows的Docker需要4G以上的内存。
-- JupyterNotebook(http://localhost:8888/tree)可以使用cufflinks库直接生成可视化图表，Jupyterlab（http://localhost:8888/lab）扩展编译异常，可视化渲染暂时使用matplotlib库。
-
-
-
+- JupyterNotebook( http://localhost:8888/tree )可以使用cufflinks库直接生成可视化图表，Jupyterlab（ http://localhost:8888/lab ）扩展编译异常，可视化渲染暂时使用matplotlib库。
