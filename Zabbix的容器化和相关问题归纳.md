@@ -5,19 +5,20 @@ Mail:1753330141@qq.com
 Date:2020-07-05
 ```
 ### 摘要说明
-Zabbix可以广泛用于基础架构层面和业务系统层面的运维管理，整合Ansible、Redis、Python3等工具后，可以发挥更大的作用。  
-随着Zabbix本身的不断完善，提供了多种安装方式，通过Git、yum、rpm和手动编译方式，都可以轻松的部署，同时官方也提供了容器的部署方案。  
+Zabbix可以广泛用于基础架构层面和业务系统层面的运维管理，整合Ansible、Redis、Python3等工具可以发挥更大的作用。  
+Zabbix提供了多种安装方式，通过Git、yum、rpm和手动编译方式，都可以轻松的部署，同时官方也提供了容器的部署方案。  
 由于容器自身存在的一些限制，比如字符集、定时任务等服务和组件的精简，还是建议在官方CentOS7镜像的基础上，自行构建开箱即用的Zabbix。  
-在使用dockerfile构建过程，发现如下问题，所以改为在官方镜像基础上创建容器后，执行安装脚本完成Zabbix的配置，完成后通过Docker commit创建新的镜像：
-- 构建过程中由于安全限制，无法使用systemctl start mariadb的方式启动MySQL完成后续的数据库初始化，如果使用mysqld_safe命令方式启动，执行启动命令后虽然MySQL启动成功，但是会话进程锁死
+在使用dockerfile构建过程，仍然存在一些问题，所以建议在官方镜像基础上创建容器后，执行安装脚本完成Zabbix的配置，完成后通过Docker commit创建新的镜像。  
+主要问题如下：
+- 构建过程中由于安全限制，无法使用systemctl start mariadb的方式启动MySQL完成后续的数据库初始化，如果使用mysqld_safe命令方式启动，执行启动命令后虽然MySQL启动成功，但是会话进程锁死，后续的镜像构建步骤停止
 ```shell
 /usr/bin/mysqld_safe --datadir='/var/lib/mysql'
 ```
 - 多个服务需要通过手动修改启动文件的方式设置启动，如Redis等，而运行的容器中只需要使用systemctl enalbe即可变更
 - 修改时区配置需要从宿主机拷贝文件时间，而运行的容器中只需要使用timedatectl set-timezone 'Asia/Shanghai'即可变更
-综上，选择使用活动容器执行脚本方式完成镜像的构建
-- 通过yum安装zabbix-server-mysql，本地在/usr/share/doc/创建目录并写入初始化脚本失败，需要rpm卸载该包后重新rpm下载安装（yum安装解决其他包的依赖关系）
-总体而言，很多问题是都是由于容器在build过程中权限和服务的差异导致
+- 通过yum安装zabbix-server-mysql，本地在/usr/share/doc/创建目录并写入初始化脚本失败，需要rpm卸载该包后重新rpm下载安装（yum安装解决其他包的依赖关系）  
+
+总体而言，很多问题是都是由于容器在build过程中权限和服务的差异导致，选择使用活动容器执行脚本方式完成镜像的构建
 
 ### 参考资料
 - 李在弘, 武传海. Docker基础与实战[M]. 人民邮电出版社, 2016.
