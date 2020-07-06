@@ -16,6 +16,8 @@ Zabbix可以广泛用于基础架构层面和业务系统层面的运维管理�
 - 多个服务需要通过手动修改启动文件的方式设置启动，如Redis等，而运行的容器中只需要使用systemctl enalbe即可变更
 - 修改时区配置需要从宿主机拷贝文件时间，而运行的容器中只需要使用timedatectl set-timezone 'Asia/Shanghai'即可变更
 综上，选择使用活动容器执行脚本方式完成镜像的构建
+- 通过yum安装zabbix-server-mysql，本地在/usr/share/doc/创建目录并写入初始化脚本失败，需要rpm卸载该包后重新rpm下载安装（yum安装解决其他包的依赖关系）
+总体而言，很多问题是都是由于容器在build过程中权限和服务的差异导致
 
 ### 参考资料
 - 李在弘, 武传海. Docker基础与实战[M]. 人民邮电出版社, 2016.
@@ -26,9 +28,9 @@ Zabbix可以广泛用于基础架构层面和业务系统层面的运维管理�
 ```shell
 container_name=zabbix_con
 docker run -d -p 20080:80 \
-			  -p 20051:10051 \
-			  --name $container_name \
-			  --restart=always centos:7 /usr/sbin/init 	
+              -p 20051:10051 \
+              --name $container_name \
+              --restart=always centos:7 /usr/sbin/init 	
 docker exec -it $container_name bash
 ```
 ### 容器内安装Zabbix
@@ -92,9 +94,9 @@ docker commit zabbix_con zabbix_img
 ```shell
 container_name=zabbix_con_new
 docker run -d -p 20080:80 \
-			  -p 20051:10051 \
-			  --name $container_name \
-			  --restart=always zabbix_img /usr/sbin/init 	
+              -p 20051:10051 \
+              --name $container_name \
+              --restart=always zabbix_img /usr/sbin/init 	
 ```
 
 通过20080端口访问Zabbix初始化之后，即可通过缺省账号/密码登录：Admin/zabbix，数据库密码zabbix
